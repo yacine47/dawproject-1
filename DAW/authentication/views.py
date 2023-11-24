@@ -1,16 +1,23 @@
-from rest_framework.decorators import APIView, api_view
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.decorators import APIView
 from rest_framework.response import Response
-from .seriallizers import UserSerializer
+from .seriallizers import UserSerializer, UserLoginSerializer
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
 
 
 class signin(APIView):
+    authentication_classes = (SessionAuthentication,)
+
     def post(self, request):
-        if authenticate(username=request.data['username'], email=request.data['email'],
-                        password=request.data['password']) is not None:
+        data = request.data
+        serializer = UserLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.check_user(data)
+            login(request, user)
             return Response({"message": "access granted"}, status=status.HTTP_201_CREATED)
+
         return Response({"message": "Username or password invalid"}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -29,3 +36,9 @@ class signup(APIView):
         us = User.objects.all()
         data = UserSerializer(us, many=True).data
         return Response(data)
+
+
+class signout(APIView):
+    def post(self, request):
+        logout(request)
+        return Response(status=status.HTTP_200_OK)
