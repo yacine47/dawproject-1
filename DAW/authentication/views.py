@@ -1,3 +1,4 @@
+
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
@@ -28,6 +29,7 @@ class signup(APIView):
             user = User.objects.create_user(username=request.data['username'],
                                             password=request.data['password'],
                                             email=request.data['email'])
+
             return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
