@@ -1,4 +1,3 @@
-
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
@@ -13,11 +12,11 @@ class signin(APIView):
 
     def post(self, request):
         data = request.data
-        serializer = UserLoginSerializer(data=request.data)
+        serializer = UserLoginSerializer(data=data)
         if serializer.is_valid():
             user = serializer.check_user(data)
             login(request, user)
-            return Response({"message": "access granted"}, status=status.HTTP_201_CREATED)
+            return Response({"message": "access granted","session": request.session}, status=status.HTTP_201_CREATED)
 
         return Response({"message": "Username or password invalid"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -25,12 +24,14 @@ class signin(APIView):
 class signup(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
+        serializerlogin = UserLoginSerializer(data=request)
         if serializer.is_valid():
-            user = User.objects.create_user(username=request.data['username'],
-                                            password=request.data['password'],
-                                            email=request.data['email'])
-
-            return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
+            User.objects.create_user(username=request.data['username'],
+                                     password=request.data['password'],
+                                     email=request.data['email'])
+            user = serializerlogin.check_user(request.data)
+            login(request, user)
+            return Response({"message": "User created successfully ,access granted", "session": request.session}, status=status.HTTP_201_CREATED)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
