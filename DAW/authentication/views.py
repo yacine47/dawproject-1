@@ -3,7 +3,7 @@ from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from .seriallizers import UserSerializer, UserLoginSerializer
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from rest_framework import status
 
 
@@ -16,7 +16,8 @@ class signin(APIView):
         if serializer.is_valid():
             user = serializer.check_user(data)
             login(request, user)
-            return Response({"message": "access granted","session": request.session}, status=status.HTTP_201_CREATED)
+
+            return Response({"message": "access granted", }, status=status.HTTP_201_CREATED)
 
         return Response({"message": "Username or password invalid"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -29,20 +30,29 @@ class signup(APIView):
         if serializer.is_valid():
             User.objects.create_user(username=request.data['username'],
                                      password=request.data['password'],
-                                     email=request.data['email'])
+                                     email=request.data['email'],
+                                     )
+            authentication_classes = (SessionAuthentication,)
             user = serializerlogin.check_user(request.data)
             login(request, user)
-            return Response({"message": "User created successfully ,access granted", "session": request.session}, status=status.HTTP_201_CREATED)
 
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request):
-        us = User.objects.all()
-        data = UserSerializer(us, many=True).data
-        return Response(data)
+            return Response(
+                {"message": "User created successfully ,access granted"},
+                status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class signout(APIView):
     def post(self, request):
         logout(request)
         return Response(status=status.HTTP_200_OK)
+
+
+class userinfo(APIView):
+    def get(self, request):
+        if request.session:
+            user = UserSerializer(request.user)
+            return Response({'user': user.data}, status=status.HTTP_200_OK)
+
+        return Response(status=status.HTTP_404_NOT_FOUND)

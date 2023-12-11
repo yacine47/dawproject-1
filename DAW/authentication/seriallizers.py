@@ -7,7 +7,7 @@ from rest_framework.exceptions import ValidationError
 class UserSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = User
-        fields = ['username', 'password', 'email']
+        fields = ['username', 'password', 'email', 'is_staff']
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -19,3 +19,5 @@ class UserLoginSerializer(serializers.Serializer):
         if not user:
             raise ValidationError('user not found')
         return user
+
+
