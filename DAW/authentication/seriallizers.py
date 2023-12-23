@@ -10,12 +10,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['username', 'password', 'email', 'is_staff', 'is_superuser']
 
 
-class UserMoreInfoSerializer(serializers.ModelSerializer):
-    class Meta(object):
-        model = User
-        fields = ['first_name', 'last_name', 'birth_date']
-
-
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
