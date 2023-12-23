@@ -1,7 +1,7 @@
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
-from .seriallizers import UserSerializer, UserLoginSerializer, UserMoreInfoSerializer
+from .seriallizers import UserSerializer, UserLoginSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from rest_framework import status
@@ -57,16 +57,4 @@ class userinfo(APIView):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-class moreinfo(APIView):
-    def post(self, request):
-        provided_id = request.data.get('id')  # Assuming the 'id' is provided in the request data
-        try:
-            user_instance = User.objects.get(id=provided_id)
-        except User.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-        userinfoserializer = UserMoreInfoSerializer(user_instance,data=request.data,partial=True)
-        if userinfoserializer.is_valid():
-            userinfoserializer.save()
-            return Response(userinfoserializer.data, status=status.HTTP_201_CREATED)
-        return Response(userinfoserializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

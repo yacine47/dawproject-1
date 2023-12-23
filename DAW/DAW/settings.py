@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure--(zr3)x3l3(inbw82z1)h8)=-$awq5+jbb+)g7&=poz86^&n8u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.43.9']
+ALLOWED_HOSTS = ['192.168.43.9', '127.0.0.1']
 
 # Application definition
 
@@ -122,6 +122,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUST_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Use database-backed sessions
