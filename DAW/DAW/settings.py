@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure--(zr3)x3l3(inbw82z1)h8)=-$awq5+jbb+)g7&=poz86^&n8u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.43.9', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.1.80', '127.0.0.1']
 
 # Application definition
 
@@ -26,11 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication',
-    'QA',
     'corsheaders',
     'rest_framework',
-    'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',
     'Users.apps.UsersConfig',
     'Alert.apps.AlertConfig',
     'Message.apps.MessageConfig',
@@ -39,7 +36,7 @@ INSTALLED_APPS = [
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
     )
 
 }

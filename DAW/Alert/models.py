@@ -12,5 +12,4 @@ class Alert(models.Model):
     id_Patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=False)
     alertDate = models.DateTimeField()
     alertType = models.CharField(max_length=45,choices=alertTypes)
-    
-    
+

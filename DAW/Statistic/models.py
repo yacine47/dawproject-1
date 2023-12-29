@@ -8,5 +8,4 @@ from Users.models import User
 class Statistic(models.Model):
     id_User = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
     statisticDate = models.DateTimeField()
-    
-  
+
