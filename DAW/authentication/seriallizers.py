@@ -1,13 +1,13 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from Users.models import User
 from rest_framework.exceptions import ValidationError
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = User
-        fields = ['username', 'password', 'email', 'is_staff', 'is_superuser']
+        fields = ['username', 'password', 'email', 'is_staff', 'is_superuser', 'dateOfBirth']
 
 
 class UserLoginSerializer(serializers.Serializer):

@@ -2,7 +2,7 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from .seriallizers import UserSerializer, UserLoginSerializer
-from django.contrib.auth.models import User
+from Users.models import User
 from django.contrib.auth import login, logout
 from rest_framework import status
 
@@ -31,6 +31,7 @@ class signup(APIView):
             User.objects.create_user(username=request.data['username'],
                                      password=request.data['password'],
                                      email=request.data['email'],
+                                     dateOfBirth=request.data['dateOfBirth']
                                      )
             user = serializerlogin.check_user(request.data)
             login(request, user)
