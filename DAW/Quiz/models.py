@@ -17,6 +17,9 @@ class ResponsesQuestionnaire(models.Model):
     dateOfResponse = models.DateTimeField(auto_now_add=True)
     score = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=False, default=0)
 
+    def __str__(self):
+        return self.id_Questionnaire.questionnaireName
+
 
 class Question(models.Model):
     QUESTIONTYPE = [
@@ -45,6 +48,5 @@ class Option(models.Model):
 
 
 class ResponsesQuestion(models.Model):
-    id_Reponse_Questionnaire = models.ForeignKey(ResponsesQuestionnaire, on_delete=models.CASCADE, null=True,
-                                                 blank=False)
-    id_Option = models.ForeignKey(Option, on_delete=models.CASCADE, null=True, blank=False)
+    id_Reponse_Questionnaire = models.ForeignKey(ResponsesQuestionnaire, on_delete=models.CASCADE, null=True, blank=False,related_name='response_question')
+    id_Option = models.ForeignKey(Option, on_delete=models.CASCADE, null=True, blank=False,related_name='option')

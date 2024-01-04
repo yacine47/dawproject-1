@@ -39,8 +39,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
 
-def __str__(self):
-    return self.username
+    def __str__(self):
+        return self.username
 
 
 class Doctor(models.Model, ):
@@ -59,6 +59,9 @@ class Patient(models.Model):
     excessiveSleepinessScore = models.DecimalField(max_digits=4, decimal_places=2)
     anxietyScore = models.DecimalField(max_digits=4, decimal_places=2)
     depressionScore = models.DecimalField(max_digits=4, decimal_places=2)
+
+    def __str__(self):
+        return self.idUser.username
 
 
 class Admin(models.Model):
